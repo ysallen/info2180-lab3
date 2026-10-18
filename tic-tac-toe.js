@@ -1,7 +1,32 @@
 document.addEventListener("DOMContentLoaded", function () {
     let squares = document.querySelectorAll("#board div");
+    let status = document.getElementById("status");
     let gameState = ["", "", "", "", "", "", "", "", ""];
     let currentPlayer = "X";
+
+    let winningCombos = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    function checkWinner() {
+        for (let i = 0; i < winningCombos.length; i++) {
+            let a = winningCombos[i][0];
+            let b = winningCombos[i][1];
+            let c = winningCombos[i][2];
+
+            if (gameState[a] !== "" && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
+                return gameState[a];
+            }
+        }
+        return "";
+    }
 
     for (let i = 0; i < squares.length; i++) {
         squares[i].classList.add("square");
@@ -10,6 +35,12 @@ document.addEventListener("DOMContentLoaded", function () {
             squares[i].textContent = currentPlayer;
             squares[i].classList.add(currentPlayer);
             gameState[i] = currentPlayer;
+
+            let winner = checkWinner();
+            if (winner !== "") {
+                status.textContent = "Congratulations! " + winner + " is the Winner!";
+                status.classList.add("you-won");
+            }
 
             if (currentPlayer === "X") {
                 currentPlayer = "O";
