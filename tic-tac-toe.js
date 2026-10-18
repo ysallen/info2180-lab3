@@ -33,6 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
         squares[i].classList.add("square");
 
         squares[i].addEventListener("click", function () {
+            if (gameState[i] !== "") {
+                return;
+            }
+
             squares[i].textContent = currentPlayer;
             squares[i].classList.add(currentPlayer);
             gameState[i] = currentPlayer;
